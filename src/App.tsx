@@ -1,6 +1,7 @@
 import { Header } from "./components/Header"
 import { Tip } from "./components/Tip"
 import { Letters } from "./components/Letters"
+import { Input } from "./components/Input"
 import styles from "./app.module.css"
 
 export default function App() {
@@ -21,6 +22,14 @@ export default function App() {
       <Letters value="A"/>
       <Letters value="C"/>
       <Letters value="T"/>
+      </div>
+
+      <h4>Palpite</h4>
+
+      <div>
+
+        <Input autoFocus maxLength={1} placeholder="?"/>
+
       </div>
     </main>
 
