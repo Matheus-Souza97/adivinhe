@@ -3,7 +3,7 @@ import { Tip } from "./components/Tip"
 import { Letters } from "./components/Letters"
 import { Input } from "./components/Input"
 import { Button } from "./components/Button"
-import { LettersUser } from "./components/LettersUsed"
+import { LettersUser, type LettersUsedProps } from "./components/LettersUsed"
 import { WORDS, type Challenge } from "./utils/words"
 import { useEffect, useState } from "react"
 import styles from "./app.module.css"
@@ -12,6 +12,7 @@ export default function App() {
 
   const [tentativas, setTentativas] = useState(0)
   const [letter, setLetter] = useState("")
+  const [lettersUsed, setLettersUsedProps] = useState<LettersUsedProps[]>([])
   const [challenge, setChallenge] = useState<Challenge | null>(null)
 
   function handleRestartGame() {
@@ -62,7 +63,7 @@ export default function App() {
         <Button title="Confirmar"/>
       </div>
 
-      <LettersUser/>
+      <LettersUser data={lettersUsed}/>
 
     </main>
 
