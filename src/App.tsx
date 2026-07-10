@@ -8,6 +8,8 @@ import { WORDS, type Challenge } from "./utils/words"
 import { useEffect, useState } from "react"
 import styles from "./app.module.css"
 
+const ATTEMPTS_MARGIN = 5
+
 export default function App() {
 
   const [score, setScore] = useState(0)
@@ -69,7 +71,7 @@ export default function App() {
   return (
     <div className={styles.container}>
     <main>
-      <Header current={score} max={10} onRestart={handleRestartGame}/>
+      <Header current={lettersUsed.length} max={challenge.word.length + ATTEMPTS_MARGIN} onRestart={handleRestartGame}/>
 
       <Tip tip={challenge.tip}/>
 
