@@ -10,7 +10,8 @@ import styles from "./app.module.css"
 
 export default function App() {
 
-  const [tentativas, setTentativas] = useState(0)
+  const [score, setScore] = useState(0)
+ 
   const [letter, setLetter] = useState("")
   const [lettersUsed, setLettersUsedProps] = useState<LettersUsedProps[]>([])
   const [challenge, setChallenge] = useState<Challenge | null>(null)
@@ -24,8 +25,9 @@ export default function App() {
     const randomWord = WORDS[index]
     setChallenge(randomWord)
 
-    setTentativas(0)
+    setScore(0)
     setLetter("")
+    setLettersUsedProps([])
   }
 
   function handleConfirm() {
@@ -45,7 +47,13 @@ export default function App() {
       return alert("Voce ja utilizou a letra " + value)
     }
 
-    setLettersUsedProps((prevState) => [...prevState, {value, correct: false}])
+    const hits = challenge.word.toUpperCase().split("").filter((char) => char === value).length
+
+    const correct = hits > 0
+    const currentScore = score + hits
+
+    setLettersUsedProps((prevState) => [...prevState, {value, correct}])
+    setScore(currentScore)
     setLetter("")
   }
 
@@ -61,18 +69,15 @@ export default function App() {
   return (
     <div className={styles.container}>
     <main>
-      <Header current={tentativas} max={10} onRestart={handleRestartGame}/>
+      <Header current={score} max={10} onRestart={handleRestartGame}/>
 
-      <Tip tip="Linguagem de programacao web mais utilizada "/>
+      <Tip tip={challenge.tip}/>
 
       <div className= {styles.word}>
-
-        {
-          challenge.word.split("").map(() => (
-
-            <Letters value=""/>
-
-          ))}
+        {challenge.word.split("").map((letter, index) => {
+          const letterUsed = lettersUsed.find((used) => used.value.toUpperCase() === letter.toUpperCase())
+          return<Letters key={index} value={letterUsed?.value} color={letterUsed?.correct ? "correct" : "default"}/>
+          })}
       
       </div>
 
