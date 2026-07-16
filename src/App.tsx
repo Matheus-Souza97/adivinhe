@@ -17,6 +17,7 @@ export default function App() {
   const [letter, setLetter] = useState("")
   const [lettersUsed, setLettersUsedProps] = useState<LettersUsedProps[]>([])
   const [challenge, setChallenge] = useState<Challenge | null>(null)
+  const [shake, setShake] = useState(false)
 
   function handleRestartGame() {
     const isConfirmed = window.confirm("Tem certeza que deseja reiniciar o jogo?")
@@ -62,6 +63,11 @@ export default function App() {
     setLettersUsedProps((prevState) => [...prevState, {value, correct}])
     setScore(currentScore)
     setLetter("")
+
+    if(!correct){
+      setShake(true)
+      setTimeout(() => setShake(false), 300)
+    }
   }
 
   function endGame(message:string) {
@@ -103,9 +109,11 @@ export default function App() {
 
       <Tip tip={challenge.tip}/>
 
-      <div className= {styles.word}>
+      <div className= {`${styles.word} ${shake && styles.shake}`}>
         {challenge.word.split("").map((letter, index) => {
+          
           const letterUsed = lettersUsed.find((used) => used.value.toUpperCase() === letter.toUpperCase())
+
           return<Letters key={index} value={letterUsed?.value} color={letterUsed?.correct ? "correct" : "default"}/>
           })}
       
